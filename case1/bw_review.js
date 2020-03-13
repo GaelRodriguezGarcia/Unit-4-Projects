@@ -43,32 +43,54 @@ function init(){
 
         stars[i].addEventListener("mouseenter", lightStars);
 
-        document.getElementById("comment").addEventListener("keyup", updateCount);
     }
+    document.getElementById("comment").addEventListener("keyup", updateCount);
 }
 
 function lightStars(e){
     var starNumbers = e.target.alt;
-
     var stars = document.querySelectorAll("span#stars img");
 
     for(var i = 0; i <starNumbers; i++){
         stars[i].src = "bw_star2.png";
     }
     for(var i = starNumbers; i < 5; i++){
-        document.image(stars.src) = "bw_star.png";
+        stars[i].src = "bw_star.png";
     }
+    document.getElementById("rating").value = starNumber + "stars";
+    e.target.addEventListener("mouseleave", turnOffStars);
+    e.target.addEventListener("click",
+        function(){
+            e.target.removeEventListener("mouseLeave", turnOffStars);
+        }
+    );
     
-
-
 }
 
 function turnOffStars(e){
+    var stars = document.querySelectorAll("span#stars img");
 
+    for (var i = 0; i < 5; i++) {
+      stars[i].src = "bw_star.png";
+    }
+
+    document.getElementById("rating").value = "";
 }
 
 function updateCount(e){
-
+    var commentText = document.getElementById("comment").value;
+    var charCount = countCharacters(commentText);
+    var wordCountBox = document.getElementById("wordCount");
+    
+    wordCountBox.value =  charCount + "/1000";
+    if(charCount > 1000){
+       wordCountBox.style.color = "white";
+       wordCountBox.style.backgroundColor = "red";
+       }
+    else {
+       wordCountBox.style.color = "black";
+       wordCountBox.style.backgroundColor = "white";
+    }
 }
 
 
@@ -80,3 +102,8 @@ function updateCount(e){
   
   
 /*=================================================================*/ 
+function countCharacters(textStr) {
+    var commentregx = /\s/g;
+    var chars = textStr.replace(commentregx, "");
+    return chars.length;
+ }   

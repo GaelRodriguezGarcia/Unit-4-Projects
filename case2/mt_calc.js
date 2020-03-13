@@ -32,7 +32,57 @@
       Returns the previous expression from the list of expressions in the textStr parameter
 
 */
+window.onload = init;
 
+function init(){
+    var calcButtons = document.getElementsByClassName("calcButton");
+     for(var i = 0; i < calcButtons.length; i++){
+        calcButtons[i].onclick = buttonClick;
+    }
+    document.getElementById("calcWindow").onkeydown = calcKeys;
+}
+function buttonClick(e){
+    var calcValue = document.getElementById("calcWindow").value;
+    var calcDecimal = document.getElementById("decimals").value;
+    var buttonValue = e.target.value;
+
+    switch (buttonValue){
+        case "del":
+            calcValue = "";
+            break;
+        case "bksp":
+            calcValue = eraseChar(calcValue);
+            break;
+        case "enter":
+            calcValue += "=" + evalEq(calcValue, calcDecimal) + "\n";
+            break;
+        case "prev":
+            calcValue += lastEq(calcValue);
+            break;
+        default:
+            calcValue += buttonValue;
+            break;
+    }
+    document.getElementById("calcWindow").value = calcValue;
+    document.getElementById("calcWindow").focus();
+}
+function calcKeys(e){
+    var calcValue = document.getElementById("calcWindow").value;
+    var calcDecimal = document.getElementById("decimals").value;
+
+    switch (e.key){
+        case "delete":
+            calcValue = "";
+            break;
+        case "enter":
+            calcValue += "=" + evalEq(calcValue, calcDecimal);
+            break;
+        case "arrowUp":
+            calcValue += lastEq(calcValue);
+            e.preventDefault();
+    }
+    document.getElementById("calcWindow").value = calcvalue;
+}
 
 
 
