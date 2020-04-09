@@ -69,6 +69,7 @@ function init() {
     currentLetter = allLetters[0]; 
     var acrossID = currentLetter.dataset.clueA;
     var downID = currentLetter.dataset.clueD;
+
     acrossClue = document.getElementById(currentLetter.dataset.clueA);
     downClue = document.getElementById(currentLetter.dataset.clueD);
 
@@ -87,13 +88,41 @@ function init() {
    //10
    currentLetter.addEventListener("keydown", selectLetter());
 
-   //12
+   //change typeing direction
    var typeImage = document.getElementById("directionImg");
    typeImage.style.cursor = "pointer";
    typeImage.onmousedown = switchTypeDirection();
 
+   // Run Show Errors
+   document.getElementById("showErrors").addEventListener("click",
+   function() {
+      for (var i = 0; i < allLetters.length; i++) {
+          if (allLetters[i].textContent !== allLetters.dataset.letter.value) {
+            allLetters[i].style.color = "red";
+
+         }
+   }
+      // Remove the hints after 3 seconds
+      setTimeout(
+      function() {
+      }, 3000);
+   }
+);
+      // Show Solutions
+      document.getElementById("showSolution").addEventListener("click",
+      function() {
+         for (i = 0; i < allLetters.length; i++) {
+            allLetters.textContent = allLetters.dataset.letter.value;
+         }
+
+         }
+
+      );
 
 }
+
+
+
 
 
 //step 7
